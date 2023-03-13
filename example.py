@@ -1,7 +1,7 @@
-from dict2class import Dict2Class
+from pydict2class import PyDict2Class
 
 if __name__ == "__main__":
-    dict2class = Dict2Class()
+    dict2class = PyDict2Class()
     mydict = {"string": "this is a string", "integer": 12341, "boolean": True, "listofint": [1,2,3,4,5,6,7,8,9]}
     myclass = dict2class.generate(mydict, "testclass")
     print(type(myclass))
