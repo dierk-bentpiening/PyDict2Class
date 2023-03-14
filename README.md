@@ -10,7 +10,7 @@ i use this tool to dynamically create mongoengine data classes with the appropri
 Actual i am implement the Functionality to create SQLAlchemy Data Model classes.
 ## Usage
 install the library from source or over pip.
-import package and inherit Class object.
+import package and inherit Class object. 
 e builtins data types. Non Python standard types or methods can also be inc
 ```python:
 from pydict2class import Dict2Class
@@ -34,3 +34,11 @@ The magic is done and you have a dynamic class with the dictionary keys as attri
 ```
 myobj = dict2class.generate_and_init(mydict, "classfdict")
 ```
+
+**Use JSON instead of Dict:**
+```python:
+myjsonstr = '{"integer": 1, "string": "my string", "boolean": True, "list": [1, 2, 3]}'
+myclass = dict2class.generate(myjsonstr, "myclass", json=True)
+```
+
+**Add Custom methods to types:**
