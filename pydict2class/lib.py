@@ -6,7 +6,7 @@ Licensed under the GNU Lesser General Public License
 
 @package pydict2class
 '''
-import json
+from json import dumps
 import logging
 import builtins
 from datetime import datetime
@@ -40,7 +40,7 @@ class PyDict2Class:
         def __init__(self, **kwargs) -> None:
             pass
 
-    def generate(self, condict, classname: str,  BaseClass=BaseClass, type_dict=None, json=False) -> object:
+    def generate(self, condict, classname: str,  BaseClass=BaseClass, json: bool = False, prioritizetypedict: bool = False) -> object:
         def __init__(self, **kwargs):
             self.__class__ = self.__class__
             for key, value in kwargs.items():
@@ -50,26 +50,39 @@ class PyDict2Class:
             BaseClass.__init__(self, **kwargs)
         classattributes: dict = {"__init__": __init__}
         if (isinstance(condict, str)) and (json is True):
-            condict = json.dumps(condict)
+            condict = dumps(condict)
         if isinstance(condict, dict):
             for key, value in condict.items():
-                try:
-                    getattr(builtins, value.__class__.__name__)
-                except AttributeError:
-                    self._logger.debug(f"Type of {value} is not part of builtins!")
+                if prioritizetypedict:
                     if self._type_dict.get(value.__class__.__name__):
                         classattributes[key] = self._type_dict.get(value.__class__.__name__)
                     else:
-                        raise AttributeError
                         self._logger.error(f"Type of {value} is not in type dict!")
+                        try:
+                            builtintype = getattr(builtins, value.__class__.__name__)
+                        except AttributeError:
+                            self._logger.debug(f"Type of {value} is not part of builtinns")
+                            raise TypeError
+                        else:
+                            classattributes[key] = builtintype
                 else:
-                    classattributes[key] = getattr(builtins, value.__class__.__name__)
+                    try:
+                        builtintype = getattr(builtins, value.__class__.__name__)
+                    except AttributeError:
+                        self._logger.debug(f"Type of {value} is not part of builtins!")
+                        if self._type_dict.get(value.__class__.__name__):
+                            classattributes[key] = self._type_dict.get(value.__class__.__name__)
+                        else:
+                            raise AttributeError
+                            self._logger.error(f"Type of {value} is not in type dict!")
+                    else:
+                        classattributes[key] = builtintype
             return type(classname, (BaseClass,), classattributes)
         else:
             raise TypeError
 
-    def generate_and_fill(self, condict, classname: str,  BaseClass=BaseClass, type_dict=None, json=False) -> object:
-        genclass = self.generate(condict, classname, BaseClass, type_dict=None, json=json)
+    def generate_and_fill(self, condict, classname: str,  BaseClass=BaseClass, type_dict=None, json=False, prioritizetypedict: bool = False ) -> object:
+        genclass = self.generate(condict, classname, BaseClass, type_dict=None, json=json, prioritizetypedict=prioritizetypedict)
         return genclass(**condict)
 
 
