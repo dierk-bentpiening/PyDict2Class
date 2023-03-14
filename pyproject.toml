@@ -1,8 +1,8 @@
 [project]
-name = "dbpiening.Dict2Class"
+name = "pydict2class"
 version = "0.0.1"
 authors = [
-  { name="Author", email="dierk-bent.piening@mailbox.org" },
+  { name="Dierk-Bent Piening", email="dierk-bent.piening@mailbox.org" },
 ]
 description = "Dynamically generate classes from JSON or Dicts"
 readme = "README.md"
