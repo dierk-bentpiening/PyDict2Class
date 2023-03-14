@@ -9,6 +9,7 @@ class TestLib:
     
     def test_callable(self) -> None:
         assert callable(self.myclass) is True, "Check that generated object is callable"
+
     def test_modul(self) -> None:
         assert isinstance(self.myobj, self.myclass) is True, "Check that obj is instance of pydict2class generated class"
         

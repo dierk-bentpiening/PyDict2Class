@@ -11,7 +11,7 @@ Actual i am implement the Functionality to create SQLAlchemy Data Model classes.
 ## Usage
 install the library from source or over pip.
 import package and inherit Class object.
-
+e builtins data types. Non Python standard types or methods can also be inc
 ```python:
 from pydict2class import Dict2Class
 dict2class = Dict2Class()
@@ -31,3 +31,6 @@ The magic is done and you have a dynamic class with the dictionary keys as attri
 
 
 **Generate class and initialize object:**
+```
+myobj = dict2class.generate_and_init(mydict, "classfdict")
+```
